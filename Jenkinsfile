@@ -11,9 +11,9 @@ pipeline {
     }
     post {
         success {
-            mail to: 'cuongpm0503@gmail.com',
-             subject: "Failed Pipeline: ${currentBuild.fullDisplayName}",
-             body: "Something is wrong with ${env.BUILD_URL}"
+            slackSend channel: '#slacktest',
+                  color: 'good',
+                  message: "The pipeline ${currentBuild.fullDisplayName} completed successfully."
         }
         unstable {
             echo 'I am unstable :/'
