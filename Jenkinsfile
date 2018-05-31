@@ -11,7 +11,9 @@ pipeline {
     }
     post {
         success {
-            echo 'I succeeeded!'
+            mail to: 'cuongpm0503@gmail.com',
+             subject: "Failed Pipeline: ${currentBuild.fullDisplayName}",
+             body: "Something is wrong with ${env.BUILD_URL}"
         }
         unstable {
             echo 'I am unstable :/'
