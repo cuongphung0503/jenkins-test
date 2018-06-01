@@ -3,26 +3,24 @@ pipeline {
         docker { image 'maven:3.3.3' }
     }
     stages {
-        stage('No-op') {
+        /* "Build" and "Test" stages omitted */
+
+        stage('Deploy - Staging') {
             steps {
                 sh 'ls'
             }
         }
-    }
-    post {
-        success {
-            slackSend channel: '#slacktest',
-                  color: 'good',
-                  message: "The pipeline ${currentBuild.fullDisplayName} completed successfully."
+
+        stage('Sanity check') {
+            steps {
+                input "Does the staging environment look ok?"
+            }
         }
-        unstable {
-            echo 'I am unstable :/'
-        }
-        failure {
-            echo 'I failed :('
-        }
-        changed {
-            echo 'Things were different before...'
+
+        stage('Deploy - Production') {
+            steps {
+                sh 'ls'
+            }
         }
     }
 }
